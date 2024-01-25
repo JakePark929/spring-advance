@@ -5,10 +5,13 @@ import com.jake.advance.domain.User;
 import com.jake.advance.repository.RedisHashUserRepository;
 import com.jake.advance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+
+import static com.jake.advance._core.config.CacheConfig.CACHE1;
 
 @RequiredArgsConstructor
 @Service
@@ -47,5 +50,10 @@ public class UserService {
                     .updatedAt(user.getUpdatedAt())
                     .build());
         });
+    }
+
+    @Cacheable(cacheNames = CACHE1, key = "'user:' + #id")
+    public User getSpringCacheUser(Long id) {
+        return userRepository.findById(id).orElseThrow();
     }
 }

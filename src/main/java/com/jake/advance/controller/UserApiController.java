@@ -21,7 +21,10 @@ public class UserApiController {
     }
 
     @GetMapping("/redishash-users/{id}")
-    public RedisHashUser getRedisHashUser(@PathVariable Long id) {
-        return userService.getRedisHashUser(id);
+    public RedisHashUser getRedisHashUser(@PathVariable Long id) { return userService.getRedisHashUser(id); }
+
+    @GetMapping("/cache-users/{id}")
+    public User getSpringCacheUser(@PathVariable Long id) {
+        return userService.getSpringCacheUser(id);
     }
 }
