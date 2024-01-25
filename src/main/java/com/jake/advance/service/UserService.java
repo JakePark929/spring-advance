@@ -1,6 +1,8 @@
 package com.jake.advance.service;
 
+import com.jake.advance.domain.RedisHashUser;
 import com.jake.advance.domain.User;
+import com.jake.advance.repository.RedisHashUserRepository;
 import com.jake.advance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +14,7 @@ import java.time.Duration;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RedisHashUserRepository redisHashUserRepository;
     private final RedisTemplate<String, User> userRedisTemplate;
     private final RedisTemplate<String, Object> objectRedisTemplate;
 
@@ -30,5 +33,19 @@ public class UserService {
 
         // 3. return
         return user;
+    }
+
+    public RedisHashUser getRedisHashUser(Long id) {
+        return redisHashUserRepository.findById(id).orElseGet(() -> {
+            final User user = userRepository.findById(id).orElseThrow();
+
+            return redisHashUserRepository.save(RedisHashUser.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .createdAt(user.getCreatedAt())
+                    .updatedAt(user.getUpdatedAt())
+                    .build());
+        });
     }
 }
