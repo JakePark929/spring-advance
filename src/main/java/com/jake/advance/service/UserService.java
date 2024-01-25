@@ -3,50 +3,32 @@ package com.jake.advance.service;
 import com.jake.advance.domain.User;
 import com.jake.advance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+
+import java.time.Duration;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final JedisPool jedisPool;
+    private final RedisTemplate<String, User> userRedisTemplate;
+    private final RedisTemplate<String, Object> objectRedisTemplate;
 
-    public String getUserEmail(Long id) {
-//        try(var jedisPool = new JedisPool("127.0.0.1", 6379)) {
-//            try (Jedis jedis = jedisPool.getResource()) {
-//                var userEmailRedisKey = "users:%d:email".formatted(id);
-//
-//                // 1. request to cache
-//                String userEmail = jedis.get(userEmailRedisKey);
-//                if (userEmail != null) return userEmail;
-//
-//                // 2. else db
-//                userEmail = userRepository.findById(id).orElse(User.builder().build()).getEmail();
-//
-//                // 3. cache
-//                jedis.set(userEmailRedisKey, userEmail);
-//
-//                return userEmail;
-//            }
-//        }
+    public User getUser(Long id) {
+        var key = "users:%d".formatted(id);
 
-        try (Jedis jedis = jedisPool.getResource()) {
-            var userEmailRedisKey = "users:%d:email".formatted(id);
-
-            // 1. request to cache
-            String userEmail = jedis.get(userEmailRedisKey);
-            if (userEmail != null) return userEmail;
-
-            // 2. else db
-            userEmail = userRepository.findById(id).orElse(User.builder().build()).getEmail();
-
-            // 3. cache
-//            jedis.set(userEmailRedisKey, userEmail);
-            jedis.setex(userEmailRedisKey, 30, userEmail);
-
-            return userEmail;
+        // 1. cache get
+        var cachedUser = objectRedisTemplate.opsForValue().get(key);
+        if (cachedUser != null) {
+            return (User) cachedUser;
         }
+
+        // 2. else dv -> cache set
+        final User user = userRepository.findById(id).orElseThrow();
+        objectRedisTemplate.opsForValue().set(key, user, Duration.ofSeconds(10));
+
+        // 3. return
+        return user;
     }
 }
