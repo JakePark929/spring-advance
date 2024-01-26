@@ -1,4 +1,4 @@
-package com.jake.advance.domain;
+package com.jake.advance.lettuce.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Builder
@@ -18,15 +19,15 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "user")
 @Entity
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false, unique = true)
     private String email;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String name;
 
     @CreatedDate
