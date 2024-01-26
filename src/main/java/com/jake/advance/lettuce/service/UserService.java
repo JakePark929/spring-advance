@@ -1,9 +1,9 @@
-package com.jake.advance.service;
+package com.jake.advance.lettuce.service;
 
-import com.jake.advance.domain.RedisHashUser;
-import com.jake.advance.domain.User;
-import com.jake.advance.repository.RedisHashUserRepository;
-import com.jake.advance.repository.UserRepository;
+import com.jake.advance.lettuce.domain.RedisHashUser;
+import com.jake.advance.lettuce.domain.User;
+import com.jake.advance.lettuce.repository.RedisHashUserRepository;
+import com.jake.advance.lettuce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;

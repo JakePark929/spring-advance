@@ -1,4 +1,4 @@
-package com.jake.advance.controller;
+package com.jake.advance.lettuce.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;

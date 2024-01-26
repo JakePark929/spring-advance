@@ -1,6 +1,6 @@
 package com.jake.advance;
 
-import com.jake.advance.repository.UserRepository;
+import com.jake.advance.lettuce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

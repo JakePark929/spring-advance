@@ -1,8 +1,8 @@
-package com.jake.advance.controller;
+package com.jake.advance.lettuce.controller;
 
-import com.jake.advance.domain.RedisHashUser;
-import com.jake.advance.domain.User;
-import com.jake.advance.service.UserService;
+import com.jake.advance.lettuce.domain.RedisHashUser;
+import com.jake.advance.lettuce.domain.User;
+import com.jake.advance.lettuce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

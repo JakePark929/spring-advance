@@ -1,4 +1,4 @@
-package com.jake.advance.domain;
+package com.jake.advance.lettuce.domain;
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
