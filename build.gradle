@@ -23,6 +23,12 @@ repositories {
     maven { url 'https://repo.spring.io/snapshot' }
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "io.projectreactor:reactor-bom:2023.0.2"
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -36,6 +42,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    implementation 'io.projectreactor:reactor-core'
+    testImplementation 'io.projectreactor:reactor-test'
 }
 
 tasks.named('bootBuildImage') {
