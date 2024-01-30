@@ -15,13 +15,15 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("user")
+@Table("post")
 @Data
-public class User {
+public class Post {
     @Id
     private Long id;
-    private String name;
-    private String email;
+    @Column("userId")
+    private Long userId;
+    private String title;
+    private String content;
     @Column("createdAt")
     @CreatedDate
     private LocalDateTime createdAt;

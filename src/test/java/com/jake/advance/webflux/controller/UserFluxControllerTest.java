@@ -118,7 +118,8 @@ class UserFluxControllerTest {
 
     @Test
     void deleteUser() {
-        when(userFluxService.deleteById(1L)).thenReturn(Mono.just(1));
+//        when(userFluxService.deleteById(1L)).thenReturn(Mono.just(1));
+        when(userFluxService.deleteById(1L)).thenReturn(Mono.empty());
 
         webTestClient.delete().uri("/flux/users/1")
                 .exchange()
