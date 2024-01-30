@@ -1,8 +1,10 @@
 package com.jake.advance.webflux.controller;
 
 import com.jake.advance.webflux.dto.UserCreateRequest;
+import com.jake.advance.webflux.dto.UserPostResponse;
 import com.jake.advance.webflux.dto.UserResponse;
 import com.jake.advance.webflux.dto.UserUpdateRequest;
+import com.jake.advance.webflux.service.PostFluxService;
 import com.jake.advance.webflux.service.UserFluxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import reactor.core.publisher.Mono;
 @RestController
 public class UserFluxController {
     private final UserFluxService UserFluxService;
+    private final PostFluxService postFluxService;
 
     // CRUD
     @PostMapping("")
@@ -44,9 +47,21 @@ public class UserFluxController {
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
+    @GetMapping("/{id}/posts")
+    public Flux<UserPostResponse> getUserPosts(@PathVariable Long id) {
+        return postFluxService.findAllByUserId(id)
+                .map(UserPostResponse::of);
+    }
+
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<?>> deleteUser(@PathVariable Long id) {
         // 204(no content)
         return UserFluxService.deleteById(id).then(Mono.just(ResponseEntity.noContent().build()));
+    }
+
+    @DeleteMapping("/search")
+    public Mono<ResponseEntity<?>> deleteUser(@RequestParam String name) {
+        // 204(no content)
+        return UserFluxService.deleteByName(name).then(Mono.just(ResponseEntity.noContent().build()));
     }
 }
