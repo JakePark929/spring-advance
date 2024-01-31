@@ -1,0 +1,14 @@
+package com.jake.advance.webflux.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PostFluxRequest {
+    private Long userId;
+    private String title;
+    private String content;
+}
