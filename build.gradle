@@ -39,7 +39,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation 'org.springframework.boot:spring-boot-starter-cache'
 
@@ -51,6 +51,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'io.asyncer:r2dbc-mysql:1.0.2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 }
 
 tasks.named('bootBuildImage') {
